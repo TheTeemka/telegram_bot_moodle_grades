@@ -15,8 +15,8 @@ import (
 )
 
 var (
-	ErrNotLogIn         = errors.New("not logged in")
-	ErrWrongCredentials = errors.New("wrong credentials")
+	ErrNotLogIn         = errors.New("❗️ not logged in")
+	ErrWrongCredentials = errors.New("❗️ wrong credentials")
 )
 
 type MoodleFetcher struct {

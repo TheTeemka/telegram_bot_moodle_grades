@@ -12,7 +12,7 @@ import (
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/model"
 )
 
-var ErrInProgress = errors.New("already in progress")
+var ErrInProgress = errors.New("❗️ already in progress")
 
 type GradeService struct {
 	LastTimeParsed time.Time

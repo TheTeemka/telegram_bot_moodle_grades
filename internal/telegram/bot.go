@@ -80,6 +80,10 @@ func (b *TelegramBot) RunHandler() {
 
 func (b *TelegramBot) runHandlerWorker(updates <-chan tapi.Update) {
 	for update := range updates {
+		if !b.IsFromMe(update) {
+			continue
+		}
+
 		if update.Message != nil {
 			switch update.Message.Command() {
 			case "start":
@@ -152,4 +156,14 @@ func (b *TelegramBot) HandlerStatus() {
 	if err != nil {
 		slog.Error("Failed to send status", "error", err)
 	}
+}
+
+func (b *TelegramBot) IsFromMe(update tapi.Update) bool {
+	if update.Message != nil {
+		if update.Message.Chat.ID != b.targetID {
+			slog.Warn("Received message from unauthorized user", "user_id", update.Message.Chat.ID)
+			return false
+		}
+	}
+	return true
 }
