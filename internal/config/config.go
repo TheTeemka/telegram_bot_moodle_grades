@@ -6,12 +6,21 @@ import (
 )
 
 type Config struct {
-	TelegramToken   string `mapstructure:"TELEGRAM_TOKEN" validate:"required"`
-	TelegramID      int64  `mapstructure:"TELEGRAM_ID" validate:"required,min=1"`
-	MoodleLoginSite string `mapstructure:"MOODLE_LOGIN_SITE" validate:"required,url"`
-	MoodleGradeSite string `mapstructure:"MOODLE_GRADE_SITE" validate:"required,url"`
+	TelegramConfig TelegramConfig `mapstructure:",squash"`
+	MoodleConfig   MoodleConfig   `mapstructure:",squash"`
+}
+
+type MoodleConfig struct {
+	MoodleMainPage  string `mapstructure:"MOODLE_MAIN_PAGE" validate:"required,url"`
+	MoodleLoginPage string `mapstructure:"MOODLE_LOGIN_PAGE" validate:"required,url"`
+	MoodleGradePage string `mapstructure:"MOODLE_GRADE_PAGE" validate:"required,url"`
 	MoodleUser      string `mapstructure:"MOODLE_USER" validate:"required"`
 	MoodlePass      string `mapstructure:"MOODLE_PASS" validate:"required"`
+}
+
+type TelegramConfig struct {
+	TelegramToken string `mapstructure:"TELEGRAM_TOKEN" validate:"required"`
+	TelegramID    int64  `mapstructure:"TELEGRAM_ID" validate:"required,min=1"`
 }
 
 func Load() *Config {

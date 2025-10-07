@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"bytes"
@@ -11,6 +11,12 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/config"
+)
+
+var (
+	ErrNotLogIn         = errors.New("not logged in")
+	ErrWrongCredentials = errors.New("wrong credentials")
 )
 
 type MoodleFetcher struct {
@@ -18,11 +24,12 @@ type MoodleFetcher struct {
 
 	user       string
 	pass       string
-	loginSite  string
-	gradesSite string
+	loginPage  string
+	mainPage   string
+	gradesPage string
 }
 
-func NewMoodleFetcher(LoginSite, gradesSite, user, pass string) *MoodleFetcher {
+func NewMoodleFetcher(cfg config.MoodleConfig) *MoodleFetcher {
 	jar, err := cookiejar.New(nil)
 	if err != nil {
 		panic(err)
@@ -32,15 +39,39 @@ func NewMoodleFetcher(LoginSite, gradesSite, user, pass string) *MoodleFetcher {
 		client: &http.Client{
 			Jar: jar,
 		},
-		user:       user,
-		pass:       pass,
-		loginSite:  LoginSite,
-		gradesSite: gradesSite,
+		user:       cfg.MoodleUser,
+		pass:       cfg.MoodlePass,
+		loginPage:  cfg.MoodleLoginPage,
+		gradesPage: cfg.MoodleGradePage,
+		mainPage:   cfg.MoodleMainPage,
 	}
 }
 
+func (gp *MoodleFetcher) isLogined() error {
+	resp, err := gp.client.Get(gp.gradesPage)
+	if err != nil {
+		return fmt.Errorf("error checking login status: %v", err)
+	}
+
+	defer resp.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err != nil {
+		return fmt.Errorf("failed to parse login page HTML: %v", err)
+	}
+
+	if doc.Find("a[href*='logout']").Length() > 0 {
+		return nil
+	}
+
+	if doc.Url.String() == gp.mainPage {
+		return nil
+	}
+
+	return ErrNotLogIn
+}
 func (gp *MoodleFetcher) Login() error {
-	loginPageResp, err := gp.client.Get(gp.loginSite)
+	loginPageResp, err := gp.client.Get(gp.loginPage)
 	if err != nil {
 		return fmt.Errorf("error fetching login page: %v", err)
 	}
@@ -80,7 +111,7 @@ func (gp *MoodleFetcher) Login() error {
 	if err != nil {
 		return fmt.Errorf("invalid form action url: %v", err)
 	}
-	baseURL, _ := url.Parse(gp.loginSite)
+	baseURL, _ := url.Parse(gp.loginPage)
 	actionURL = baseURL.ResolveReference(actionURL)
 
 	data := url.Values{}
@@ -124,14 +155,14 @@ func (gp *MoodleFetcher) Login() error {
 
 	// fallback: check body for error message
 	if strings.Contains(strings.ToLower(bodyStr), "invalid") || strings.Contains(strings.ToLower(bodyStr), "incorrect") {
-		return errors.New("login failed: invalid credentials or error present in response")
+		return ErrWrongCredentials
 	}
 
 	return err
 }
 
 func (gp *MoodleFetcher) GetGradesPage() ([]byte, error) {
-	return gp.Fetch(gp.gradesSite)
+	return gp.Fetch(gp.gradesPage)
 }
 
 func (gp *MoodleFetcher) Fetch(link string) ([]byte, error) {
@@ -140,6 +171,25 @@ func (gp *MoodleFetcher) Fetch(link string) ([]byte, error) {
 		return nil, fmt.Errorf("error fetching grades page: %v", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.Request.URL.String() != link {
+
+		err := gp.Login()
+		if err != nil {
+			return nil, fmt.Errorf("re-login failed: %v", err)
+		}
+
+		resp.Body.Close()
+		resp, err = gp.client.Get(link)
+		if err != nil {
+			return nil, fmt.Errorf("error fetching grades page: %v", err)
+		}
+	}
+
+	// slog.Debug("Fetched  page",
+	// 	"status", resp.Status,
+	// 	"url", resp.Request.URL.String(),
+	// 	"link", link)
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("grades page returned status: %s", resp.Status)

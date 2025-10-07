@@ -1,3 +1,4 @@
 .env
+*.html
 csvs
 telegram_bot_moodle_grades*

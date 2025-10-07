@@ -8,57 +8,33 @@ import (
 	"time"
 
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/config"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/service"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/telegram"
 )
 
 func main() {
 	cfg := config.Load()
 	slog.SetLogLoggerLevel(slog.LevelDebug)
 
-	fetcher := NewMoodleFetcher(
-		cfg.MoodleLoginSite,
-		cfg.MoodleGradeSite,
-		cfg.MoodleUser,
-		cfg.MoodlePass,
-	)
+	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
+	gradeService := service.NewGradeService(fetcher)
 
-	parser := NewParser(fetcher)
+	slog.Info("Starting initial parse and compare")
+	_, err := gradeService.ParseAndCompare()
+	if err != nil {
+		slog.Error("Initial parse and compare failed", "error", err)
+	}
 
-	bot := NewTelegramBot(cfg.TelegramToken, cfg.TelegramID, parser.GetLastTimeParsed)
+	bot := telegram.NewTelegramBot(cfg.TelegramConfig, gradeService)
+	slog.Info("Bot started")
 
-	syncChan := make(chan struct{})
-	go bot.RunInputWorker(syncChan)
-
-	output := make(chan string)
-	go bot.RunOutputWorker(output)
-
-	parser.parseAndCompare(output)
-
-	done := make(chan bool)
-
-	const dur = 3 * time.Hour
-	go func() {
-		ticker := time.NewTicker(dur)
-		defer ticker.Stop()
-		for {
-			select {
-			case <-ticker.C:
-				parser.parseAndCompare(output)
-				slog.Info("Automatic sync triggered")
-			case <-syncChan:
-				parser.parseAndCompare(output)
-				ticker.Reset(dur)
-				slog.Info("Manual sync triggered, reset ticker")
-			case <-done:
-				slog.Info("Stopping background parsing")
-				return
-			}
-		}
-	}()
+	go bot.RunBackSync()
+	go bot.RunHandler()
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	<-sigChan
+
 	slog.Info("Received shutdown signal, exiting...")
-	close(done)
 	time.Sleep(1 * time.Second)
 }

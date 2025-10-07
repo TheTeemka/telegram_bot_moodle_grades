@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"encoding/csv"
@@ -6,37 +6,49 @@ import (
 	"log/slog"
 	"os"
 	"strings"
+	"sync/atomic"
 	"time"
+
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/model"
 )
 
-type Parser struct {
+var ErrInProgress = errors.New("already in progress")
+
+type GradeService struct {
 	LastTimeParsed time.Time
 	fetcher        *MoodleFetcher
+	isRunning      atomic.Bool
 }
 
-func NewParser(fetcher *MoodleFetcher) *Parser {
-	return &Parser{
+func NewGradeService(fetcher *MoodleFetcher) *GradeService {
+	return &GradeService{
 		fetcher: fetcher,
 	}
 }
-func (p *Parser) parseAndCompare(output chan<- string) {
-	err := p.fetcher.Login()
-	if err != nil {
-		panic(err)
+func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
+	if !p.isRunning.CompareAndSwap(false, true) {
+		return nil, ErrInProgress
 	}
-	slog.Info("Login successful")
+	defer p.isRunning.Store(false)
+
+	// err := p.fetcher.Login()
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// slog.Debug("Login successful")
 
 	buf, err := p.fetcher.GetGradesPage()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	links, err := ExtractGradesLinks(buf)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	slog.Info("Successfully extracted links", "len", len(links))
+	slog.Debug("Successfully extracted links", "len", len(links))
 
+	var TotalChanges []model.Change
 	for _, link := range links {
 		buf, err := p.fetcher.Fetch(link)
 		if err != nil {
@@ -57,19 +69,17 @@ func (p *Parser) parseAndCompare(output chan<- string) {
 		}
 
 		if exists {
-			changes := Compare(oldItems, newItems)
-			for _, c := range changes {
-				output <- c.ToHTMLString(courseName)
-			}
+			CourseChanges := Compare(courseName, oldItems, newItems)
+			TotalChanges = append(TotalChanges, CourseChanges...)
 		}
 
 		writeItems(courseName, newItems)
 	}
 	p.LastTimeParsed = time.Now()
-
+	return TotalChanges, nil
 }
 
-func (p *Parser) GetLastTimeParsed() time.Time {
+func (p *GradeService) GetLastTimeParsed() time.Time {
 	return p.LastTimeParsed
 }
 func buildFilePath(courseName string) string {
@@ -113,4 +123,37 @@ func readItems(courseName string) ([][]string, error) {
 
 	reader := csv.NewReader(file)
 	return reader.ReadAll()
+}
+
+func Compare(courseName string, old, new [][]string) []model.Change {
+	mp := map[string][]string{}
+	for _, s := range old {
+		mp[s[0]] = s
+	}
+
+	var changes []model.Change
+	for _, s := range new {
+		old, ok := mp[s[0]]
+		if !ok {
+			changes = append(changes, model.Change{
+				CourseName: courseName,
+				TP:         model.NewElement,
+				New:        s,
+			})
+		} else {
+			for i := range old {
+				if old[i] != s[i] {
+					changes = append(changes, model.Change{
+						CourseName: courseName,
+						TP:         model.Changed,
+						Old:        old,
+						New:        s,
+					})
+					break
+				}
+			}
+		}
+	}
+
+	return changes
 }
