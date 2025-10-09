@@ -115,10 +115,6 @@ func (b *TelegramBot) RunBackSync() {
 		ticker := time.NewTicker(dur)
 		defer ticker.Stop()
 		for range ticker.C {
-			err := b.SendToTarget("Manual sync triggered")
-			if err != nil {
-				slog.Error("Failed to send sync message", "error", err)
-			}
 			b.HandleSync()
 			slog.Debug("Automatic sync triggered")
 		}

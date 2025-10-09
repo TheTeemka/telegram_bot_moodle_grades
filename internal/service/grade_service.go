@@ -42,7 +42,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 		return nil, err
 	}
 
-	links, err := ExtractGradesLinks(buf)
+	links, err := extractGradesLinks(buf)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 			slog.Error("Failed to fetch grade page", "link", link, "error", err)
 		}
 
-		courseName, newItems, err := ExtractItems(buf)
+		courseName, newItems, err := extractItems(buf)
 		if err != nil {
 			slog.Error("Failed to extract items", "link", link, "error", err)
 			continue

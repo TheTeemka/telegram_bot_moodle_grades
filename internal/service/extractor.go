@@ -9,13 +9,12 @@ import (
 	"golang.org/x/net/html"
 )
 
-func ExtractGradesLinks(htmlContent []byte) ([]string, error) {
+func extractGradesLinks(htmlContent []byte) (links []string, err error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewBuffer(htmlContent))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse HTML content: %v", err)
 	}
 
-	var links []string
 	doc.Find("table#overview-grade tbody tr").Each(func(i int, tr *goquery.Selection) {
 		if tr.HasClass("emptyrow") {
 			return
@@ -26,45 +25,45 @@ func ExtractGradesLinks(htmlContent []byte) ([]string, error) {
 		links = append(links, href)
 	})
 
-	return links, nil
+	return
 }
 
-func ExtractItems(htmlContent []byte) (string, [][]string, error) {
+func extractItems(htmlContent []byte) (courseName string, rows [][]string, err error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewBuffer(htmlContent))
 	if err != nil {
-		return "", nil, err
+		return "", nil, fmt.Errorf("failed to parse HTML content: %v", err)
 	}
 
-	name := doc.Find("div.page-header-headings h1").First().Text()
-	if name == "" {
-		panic("course name is empty")
+	courseName = doc.Find("div.page-header-headings h1").First().Text()
+	if courseName == "" {
+		return "", nil, fmt.Errorf("failed to extract course name")
 	}
-	var items [][]string
+
 	doc.Find("table.user-grade tbody tr").Each(func(i int, tr *goquery.Selection) {
 		isAggregation := tr.Find("span[title='Aggregation']").First()
 		if isAggregation.Length() > 0 {
 			return
 		}
 
-		var rows []string
+		var row []string
 		thName := tr.Find("th").First().Find("div.rowtitle").Children().First().Text()
 		// slog.Debug("Extracted thname", "thname", thName)
 
 		if thName == "" {
 			return
 		}
-		rows = append(rows, trim(thName))
+		row = append(row, trim(thName))
 
 		tr.Find("td").Each(func(i int, s *goquery.Selection) {
-			rows = append(rows, (firstTextNode(s)))
+			row = append(row, (firstTextNode(s)))
 		})
 		if len(rows) == 7 {
-			items = append(items, rows)
+			rows = append(rows, row)
 		}
 		// slog.Debug("Extracted row", "row", rows)
 	})
 
-	return name, items, nil
+	return
 }
 func trim(s string) string {
 	s = strings.ReplaceAll(s, "\t", "")
