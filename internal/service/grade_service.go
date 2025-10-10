@@ -27,15 +27,10 @@ func NewGradeService(fetcher *MoodleFetcher) *GradeService {
 }
 func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 	if !p.isRunning.CompareAndSwap(false, true) {
+		slog.Debug("ParseAndCompare:already_running")
 		return nil, ErrInProgress
 	}
 	defer p.isRunning.Store(false)
-
-	// err := p.fetcher.Login()
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// slog.Debug("Login successful")
 
 	buf, err := p.fetcher.GetGradesPage()
 	if err != nil {
@@ -50,6 +45,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 
 	var TotalChanges []model.Change
 	for _, link := range links {
+		slog.Debug("Processing link", "link", link)
 		buf, err := p.fetcher.Fetch(link)
 		if err != nil {
 			slog.Error("Failed to fetch grade page", "link", link, "error", err)
@@ -70,20 +66,27 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 
 		if exists {
 			CourseChanges := Compare(courseName, oldItems, newItems)
+			slog.Debug("Course changes found", "course", courseName, "count", len(CourseChanges))
 			TotalChanges = append(TotalChanges, CourseChanges...)
 		}
 
-		writeItems(courseName, newItems)
+		err = writeItems(courseName, newItems)
+		if err != nil {
+			slog.Error("Failed to write new items", "course", courseName, "error", err)
+		}
 	}
 	p.LastTimeParsed = time.Now()
+	slog.Debug("ParseAndCompare:done", "total_changes", len(TotalChanges))
 	return TotalChanges, nil
 }
 
 func (p *GradeService) GetLastTimeParsed() time.Time {
+	slog.Debug("GetLastTimeParsed", "last", p.LastTimeParsed)
 	return p.LastTimeParsed
 }
 func buildFilePath(courseName string) string {
-	return "csvs/" + sanitizeFilename(courseName) + "_grades.csv"
+	path := "csvs/" + sanitizeFilename(courseName) + "_grades.csv"
+	return path
 }
 
 func sanitizeFilename(name string) string {
@@ -97,10 +100,12 @@ func sanitizeFilename(name string) string {
 	if len(name) > 255 {
 		name = name[:255]
 	}
+	slog.Debug("sanitizeFilename", "result", name)
 	return name
 }
 
 func writeItems(courseName string, items [][]string) error {
+	slog.Debug("writeItems", "course", courseName, "items", len(items))
 	file, err := os.OpenFile(buildFilePath(courseName), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return err
@@ -115,6 +120,7 @@ func writeItems(courseName string, items [][]string) error {
 }
 
 func readItems(courseName string) ([][]string, error) {
+	slog.Debug("readItems", "course", courseName)
 	file, err := os.Open(buildFilePath(courseName))
 	if err != nil {
 		return nil, err
@@ -126,6 +132,7 @@ func readItems(courseName string) ([][]string, error) {
 }
 
 func Compare(courseName string, old, new [][]string) []model.Change {
+	slog.Debug("Compare:start", "course", courseName, "old", len(old), "new", len(new))
 	mp := map[string][]string{}
 	for _, s := range old {
 		mp[s[0]] = s

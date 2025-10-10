@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 	"time"
 
@@ -14,12 +16,12 @@ import (
 
 func main() {
 	cfg := config.Load()
-	slog.SetLogLoggerLevel(slog.LevelDebug)
+	setSlog()
 
+	slog.Info("Starting telegram bot")
 	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
 	gradeService := service.NewGradeService(fetcher)
 
-	slog.Info("Starting initial parse and compare")
 	_, err := gradeService.ParseAndCompare()
 	if err != nil {
 		slog.Error("Initial parse and compare failed", "error", err)
@@ -37,4 +39,36 @@ func main() {
 
 	slog.Info("Received shutdown signal, exiting...")
 	time.Sleep(1 * time.Second)
+}
+
+func setSlog() {
+	h := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level:     slog.LevelDebug,
+		AddSource: true,
+		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key != slog.SourceKey {
+				return a
+			}
+
+			switch v := a.Value.Any().(type) {
+			case *slog.Source:
+				if v != nil {
+					short := filepath.Base(v.File)
+					a.Value = slog.StringValue(fmt.Sprintf("%s:%d", short, v.Line))
+				}
+			case slog.Source:
+				short := filepath.Base(v.File)
+				a.Value = slog.StringValue(fmt.Sprintf("%s:%d", short, v.Line))
+			default:
+				// Fallback: shorten the string representation
+				s := a.Value.String()
+				if s != "" {
+					a.Value = slog.StringValue(filepath.Base(s))
+				}
+			}
+			return a
+		},
+	})
+
+	slog.SetDefault(slog.New(h))
 }

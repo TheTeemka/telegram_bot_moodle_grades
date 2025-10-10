@@ -52,15 +52,16 @@ func extractItems(htmlContent []byte) (courseName string, rows [][]string, err e
 		if thName == "" {
 			return
 		}
+
 		row = append(row, trim(thName))
 
 		tr.Find("td").Each(func(i int, s *goquery.Selection) {
 			row = append(row, (firstTextNode(s)))
 		})
-		if len(rows) == 7 {
+
+		if len(row) == 7 {
 			rows = append(rows, row)
 		}
-		// slog.Debug("Extracted row", "row", rows)
 	})
 
 	return
