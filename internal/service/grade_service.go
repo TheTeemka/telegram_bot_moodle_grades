@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -43,38 +44,55 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 	}
 	slog.Debug("Successfully extracted links", "len", len(links))
 
+	if err = p.fetcher.IsLogined(); err != nil {
+		err = p.fetcher.Login()
+		if err != nil {
+			slog.Error("Login failed", "error", err)
+		}
+	}
+
+	var wg sync.WaitGroup
+	var mux sync.Mutex
 	var TotalChanges []model.Change
 	for _, link := range links {
 		slog.Debug("Processing link", "link", link)
-		buf, err := p.fetcher.Fetch(link)
-		if err != nil {
-			slog.Error("Failed to fetch grade page", "link", link, "error", err)
-		}
+		wg.Go(func() {
+			buf, err := p.fetcher.Fetch(link)
+			if err != nil {
+				slog.Error("Failed to fetch grade page", "link", link, "error", err)
+			}
 
-		courseName, newItems, err := extractItems(buf)
-		if err != nil {
-			slog.Error("Failed to extract items", "link", link, "error", err)
-			continue
-		}
+			courseName, newItems, err := extractItems(buf)
+			if err != nil {
+				slog.Error("Failed to extract items", "link", link, "error", err)
+				return
+			}
 
-		oldItems, err := readItems(courseName)
-		exists := !errors.Is(err, os.ErrNotExist)
-		if err != nil && exists {
-			slog.Error("Failed to read old items", "course", courseName, "error", err)
-			continue
-		}
+			oldItems, err := readItems(courseName)
+			exists := !errors.Is(err, os.ErrNotExist)
+			if err != nil && exists {
+				slog.Error("Failed to read old items", "course", courseName, "error", err)
+				return
+			}
 
-		if exists {
-			CourseChanges := Compare(courseName, oldItems, newItems)
-			slog.Debug("Course changes found", "course", courseName, "count", len(CourseChanges))
-			TotalChanges = append(TotalChanges, CourseChanges...)
-		}
+			if exists {
+				CourseChanges := Compare(courseName, oldItems, newItems)
+				slog.Debug("Course changes found", "course", courseName, "count", len(CourseChanges))
 
-		err = writeItems(courseName, newItems)
-		if err != nil {
-			slog.Error("Failed to write new items", "course", courseName, "error", err)
-		}
+				mux.Lock()
+				TotalChanges = append(TotalChanges, CourseChanges...)
+				mux.Unlock()
+			}
+
+			err = writeItems(courseName, newItems)
+			if err != nil {
+				slog.Error("Failed to write new items", "course", courseName, "error", err)
+			}
+		})
 	}
+
+	wg.Wait()
+
 	p.LastTimeParsed = time.Now()
 	slog.Debug("ParseAndCompare:done", "total_changes", len(TotalChanges))
 	return TotalChanges, nil

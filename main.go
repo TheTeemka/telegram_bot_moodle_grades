@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log/slog"
 	"os"
@@ -15,8 +16,12 @@ import (
 )
 
 func main() {
+	debugFlag := flag.Bool("debug", false, "enable debug mode")
+	flag.Parse()
+
+	setSlog(*debugFlag)
+
 	cfg := config.Load()
-	setSlog()
 
 	slog.Info("Starting telegram bot")
 	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
@@ -41,9 +46,14 @@ func main() {
 	time.Sleep(1 * time.Second)
 }
 
-func setSlog() {
+func setSlog(debug bool) {
+	l := slog.LevelInfo
+	if debug {
+		l = slog.LevelDebug
+	}
+
 	h := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level:     slog.LevelDebug,
+		Level:     l,
 		AddSource: true,
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			if a.Key != slog.SourceKey {
