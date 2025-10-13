@@ -26,7 +26,7 @@ func (ch Change) ToHTMLString() string {
 			ch.CourseName, mname(ch.New),
 			perc(ch.New), score(ch.New))
 	case Changed:
-		return fmt.Sprintf("%s\n❇️ <b>Changes</b> in %s (%s)\nOld: %s\nNew: %s (%s)",
+		return fmt.Sprintf("%s\n❇️ <b>Changes</b> in %s\nOld: %s (%s)\nNew: %s (%s)",
 			ch.CourseName, mname(ch.Old),
 			perc(ch.Old), score(ch.Old),
 			perc(ch.New), score(ch.New))
@@ -39,7 +39,7 @@ func mname(row []string) string {
 	return row[0]
 }
 func perc(row []string) string {
-	return row[4]
+	return strings.ReplaceAll(row[4], " ", "")
 }
 
 func score(row []string) string {
