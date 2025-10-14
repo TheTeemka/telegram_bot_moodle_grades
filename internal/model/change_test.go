@@ -17,7 +17,7 @@ func TestChange_ToHTMLString(t *testing.T) {
 			change: Change{
 				TP:         NewElement,
 				CourseName: "course_name",
-				New:        []string{"new_arg_1", "new_arg_2", "new_arg_3", "new_arg_4-new_arg_4", "new_arg_5 %"},
+				New:        NewGradeRow([]string{"new_arg_1", "new_arg_2", "new_arg_3", "new_arg_4-new_arg_4", "new_arg_5 %"}),
 			},
 			excepted: "course_name\n🔆 <b>New:</b> new_arg_1 new_arg_5% (new_arg_3/new_arg_4-new_arg_4)",
 		},
@@ -26,8 +26,8 @@ func TestChange_ToHTMLString(t *testing.T) {
 			change: Change{
 				TP:         Changed,
 				CourseName: "course_name",
-				Old:        []string{"common_arg_1", "old_arg_2", "old_arg_3", "old_arg_4-old_arg_4", "old_arg_5 %"},
-				New:        []string{"common_arg_1", "new_arg_2", "new_arg_3", "new_arg_4-new_arg_4", "new_arg_5 %"},
+				Old:        NewGradeRow([]string{"common_arg_1", "old_arg_2", "old_arg_3", "old_arg_4-old_arg_4", "old_arg_5 %"}),
+				New:        NewGradeRow([]string{"common_arg_1", "new_arg_2", "new_arg_3", "new_arg_4-new_arg_4", "new_arg_5 %"}),
 			},
 			excepted: "course_name\n❇️ <b>Changes</b> in common_arg_1\n" +
 				"Old: old_arg_5% (old_arg_3/old_arg_4-old_arg_4)\n" +

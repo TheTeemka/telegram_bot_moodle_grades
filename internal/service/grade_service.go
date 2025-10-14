@@ -122,7 +122,7 @@ func sanitizeFilename(name string) string {
 	return name
 }
 
-func writeItems(courseName string, items [][]string) error {
+func writeItems(courseName string, items []*model.GradeRow) error {
 	slog.Debug("writeItems", "course", courseName, "items", len(items))
 	file, err := os.OpenFile(buildFilePath(courseName), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
@@ -131,13 +131,13 @@ func writeItems(courseName string, items [][]string) error {
 
 	writer := csv.NewWriter(file)
 	for _, item := range items {
-		writer.Write(item)
+		writer.Write(item.ToStringSlice())
 	}
 	writer.Flush()
 	return file.Close()
 }
 
-func readItems(courseName string) ([][]string, error) {
+func readItems(courseName string) ([]*model.GradeRow, error) {
 	slog.Debug("readItems", "course", courseName)
 	file, err := os.Open(buildFilePath(courseName))
 	if err != nil {
@@ -146,19 +146,31 @@ func readItems(courseName string) ([][]string, error) {
 	defer file.Close()
 
 	reader := csv.NewReader(file)
-	return reader.ReadAll()
+	records, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var rows []*model.GradeRow
+	for _, record := range records {
+		if len(record) == 7 {
+			rows = append(rows, model.NewGradeRow(record))
+		}
+	}
+
+	return rows, nil
 }
 
-func Compare(courseName string, old, new [][]string) []model.Change {
+func Compare(courseName string, old, new []*model.GradeRow) []model.Change {
 	slog.Debug("Compare:start", "course", courseName, "old", len(old), "new", len(new))
-	mp := map[string][]string{}
+	mp := map[string]*model.GradeRow{}
 	for _, s := range old {
-		mp[s[0]] = s
+		mp[s.AssName] = s
 	}
 
 	var changes []model.Change
 	for _, s := range new {
-		old, ok := mp[s[0]]
+		old, ok := mp[s.AssName]
 		if !ok {
 			changes = append(changes, model.Change{
 				CourseName: courseName,
@@ -166,16 +178,13 @@ func Compare(courseName string, old, new [][]string) []model.Change {
 				New:        s,
 			})
 		} else {
-			for i := range old {
-				if old[i] != s[i] {
-					changes = append(changes, model.Change{
-						CourseName: courseName,
-						TP:         model.Changed,
-						Old:        old,
-						New:        s,
-					})
-					break
-				}
+			if !old.IsEqual(s) {
+				changes = append(changes, model.Change{
+					CourseName: courseName,
+					TP:         model.Changed,
+					Old:        old,
+					New:        s,
+				})
 			}
 		}
 	}

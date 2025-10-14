@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/model"
 	"golang.org/x/net/html"
 )
 
@@ -28,7 +29,7 @@ func extractGradesLinks(htmlContent []byte) (links []string, err error) {
 	return
 }
 
-func extractItems(htmlContent []byte) (courseName string, rows [][]string, err error) {
+func extractItems(htmlContent []byte) (courseName string, rows []*model.GradeRow, err error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewBuffer(htmlContent))
 	if err != nil {
 		return "", nil, fmt.Errorf("failed to parse HTML content: %v", err)
@@ -60,7 +61,8 @@ func extractItems(htmlContent []byte) (courseName string, rows [][]string, err e
 		})
 
 		if len(row) == 7 {
-			rows = append(rows, row)
+			rows = append(rows, model.NewGradeRow(row))
+
 		}
 	})
 
