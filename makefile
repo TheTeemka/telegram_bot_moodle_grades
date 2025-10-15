@@ -19,3 +19,6 @@ reload: test
 unload:
 	@echo "loading binary..."
 	launchctl unload ~/Library/LaunchAgents/com.temirlan_bayangazy.telegram_bot_moodle_grades.plist
+
+status:
+	launchctl list ~/Library/LaunchAgents/com.temirlan_bayangazy.telegram_bot_moodle_grades.plist

@@ -1,6 +1,7 @@
 package telegram
 
 import (
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"time"
@@ -60,11 +61,15 @@ func (b *TelegramBot) RunOutputWorker(output <-chan string) {
 	}
 }
 
-func (b *TelegramBot) SendToTarget(msg string) error {
-	message := tapi.NewMessage(b.targetID, msg)
+func (b *TelegramBot) Send(chatID int64, msg string) error {
+	message := tapi.NewMessage(chatID, msg)
 	message.ParseMode = tapi.ModeHTML
 	_, err := b.bot.Send(message)
 	return err
+}
+
+func (b *TelegramBot) SendToTarget(msg string) error {
+	return b.Send(b.targetID, msg)
 }
 
 func (b *TelegramBot) RunHandler() {
@@ -157,9 +162,52 @@ func (b *TelegramBot) HandlerStatus() {
 func (b *TelegramBot) IsFromMe(update tapi.Update) bool {
 	if update.Message != nil {
 		if update.Message.Chat.ID != b.targetID {
-			slog.Warn("Received message from unauthorized user", "user_id", update.Message.Chat.ID)
+			s, err := json.Marshal(update.Message.Chat)
+			if err != nil {
+				slog.Error("Failed to marshal chat", "error", err)
+			}
+			slog.Warn("Received message from unauthorized user",
+				"user", string(s),
+				"msg_content", update.Message.Text)
+
+			err = b.Send(update.Message.Chat.ID,
+				"❗️ кто вы такие, я вас не звал. Идете <tg-spoiler> домой пожалуйста 😊 </tg-spoiler>.")
+			if err != nil {
+				slog.Error("Failed to send unauthorized message", "error", err)
+			}
 			return false
 		}
 	}
 	return true
+}
+func (b *TelegramBot) StartMessage() {
+	err := b.SendToTarget("✳️ Bot has started!")
+	if err != nil {
+		slog.Error("Failed to send start message", "error", err)
+	}
+}
+
+func (b *TelegramBot) DeadMessage() {
+	err := b.SendToTarget("☠️ Bot shutting down")
+	if err != nil {
+		slog.Error("Failed to send shutdown message", "error", err)
+	}
+}
+
+func (b *TelegramBot) Spam(d time.Duration) {
+	ch := make(chan struct{}, 100)
+	go func() {
+		ticker := time.NewTicker(d)
+		defer ticker.Stop()
+		for range ticker.C {
+			ch <- struct{}{}
+		}
+	}()
+	for range ch {
+		err := b.SendToTarget("Spam message" + time.Now().Format(time.RFC3339))
+		if err != nil {
+			slog.Error("Failed to send spam message", "error", err)
+		}
+	}
+
 }

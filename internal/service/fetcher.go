@@ -51,7 +51,7 @@ func NewMoodleFetcher(cfg config.MoodleConfig) *MoodleFetcher {
 }
 
 func (gp *MoodleFetcher) IsLogined() error {
-	resp, err := gp.client.Get(gp.gradesPage)
+	resp, err := gp.client.Get(gp.mainPage)
 	if err != nil {
 		return fmt.Errorf("error checking login status: %v", err)
 	}
@@ -67,7 +67,7 @@ func (gp *MoodleFetcher) IsLogined() error {
 		return nil
 	}
 
-	if doc.Url.String() == gp.mainPage {
+	if doc.Url != nil && doc.Url.String() == gp.mainPage {
 		return nil
 	}
 

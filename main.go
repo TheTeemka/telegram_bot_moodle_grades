@@ -27,23 +27,25 @@ func main() {
 	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
 	gradeService := service.NewGradeService(fetcher)
 
-	_, err := gradeService.ParseAndCompare()
-	if err != nil {
-		slog.Error("Initial parse and compare failed", "error", err)
-	}
+	// _, err := gradeService.ParseAndCompare()
+	// if err != nil {
+	// 	slog.Error("Initial parse and compare failed", "error", err)
+	// }
 
 	bot := telegram.NewTelegramBot(cfg.TelegramConfig, gradeService)
 	slog.Info("Bot started")
+	bot.StartMessage()
 
 	go bot.RunBackSync()
 	go bot.RunHandler()
+	// go bot.Spam(10 * time.Second)
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	<-sigChan
-
+	bot.DeadMessage()
 	slog.Info("Received shutdown signal, exiting...")
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 }
 
 func setSlog(debug bool) {

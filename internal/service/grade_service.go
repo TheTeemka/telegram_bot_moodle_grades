@@ -33,6 +33,13 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 	}
 	defer p.isRunning.Store(false)
 
+	if err := p.fetcher.IsLogined(); err != nil {
+		err = p.fetcher.Login()
+		if err != nil {
+			slog.Error("Login failed", "error", err)
+		}
+	}
+
 	buf, err := p.fetcher.GetGradesPage()
 	if err != nil {
 		return nil, err
@@ -43,13 +50,6 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 		return nil, err
 	}
 	slog.Debug("Successfully extracted links", "len", len(links))
-
-	if err = p.fetcher.IsLogined(); err != nil {
-		err = p.fetcher.Login()
-		if err != nil {
-			slog.Error("Login failed", "error", err)
-		}
-	}
 
 	var wg sync.WaitGroup
 	var mux sync.Mutex
