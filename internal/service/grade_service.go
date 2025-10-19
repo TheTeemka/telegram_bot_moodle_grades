@@ -30,6 +30,12 @@ func NewGradeService(fetcher *MoodleFetcher, csvWriter *storage.CSVwriter) *Grad
 	}
 }
 
+func (p *GradeService) WaitTillFinishedRunning() {
+	for p.isRunning.Load() {
+		time.Sleep(100 * time.Millisecond)
+	}
+}
+
 func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 	if !p.isRunning.CompareAndSwap(false, true) {
 		slog.Debug("ParseAndCompare:already_running")

@@ -1,12 +1,24 @@
 package telegram
 
 import (
-	"encoding/json"
 	"fmt"
 	"log/slog"
 
 	tapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
+
+func (b *TelegramBot) HandleUpdate(update tapi.Update) {
+	if update.Message != nil {
+		switch update.Message.Command() {
+		case "start":
+			b.HandleStart()
+		case "sync":
+			b.HandleManualSync()
+		case "status":
+			b.HandlerStatus()
+		}
+	}
+}
 
 func (b *TelegramBot) HandleStart() {
 	err := b.SendToTarget("Bot is running!")
@@ -59,26 +71,4 @@ func (b *TelegramBot) HandlerStatus() {
 	if err != nil {
 		slog.Error("Failed to send status", "error", err)
 	}
-}
-
-func (b *TelegramBot) IsFromMe(update tapi.Update) bool {
-	if update.Message != nil {
-		if update.Message.Chat.ID != b.targetID {
-			s, err := json.Marshal(update.Message.Chat)
-			if err != nil {
-				slog.Error("Failed to marshal chat", "error", err)
-			}
-			slog.Warn("Received message from unauthorized user",
-				"user", string(s),
-				"msg_content", update.Message.Text)
-
-			err = b.Send(update.Message.Chat.ID,
-				"❗️ кто вы такие, я вас не звал. Идете <tg-spoiler> домой пожалуйста 😊 </tg-spoiler>.")
-			if err != nil {
-				slog.Error("Failed to send unauthorized message", "error", err)
-			}
-			return false
-		}
-	}
-	return true
 }

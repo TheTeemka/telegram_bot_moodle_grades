@@ -1,16 +1,18 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
 	"path/filepath"
+	"sync"
 	"syscall"
-	"time"
 
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/config"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/scheduler"
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/service"
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/storage"
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/telegram"
@@ -19,36 +21,38 @@ import (
 func main() {
 	debugFlag := flag.Bool("debug", false, "enable debug mode")
 	flag.Parse()
-
 	setSlog(*debugFlag)
-
 	cfg := config.Load()
 
-	slog.Info("Starting telegram bot")
-	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
+	slog.Info("Starting telegram bot", "debug", *debugFlag)
 
+	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
 	csvWriter := storage.NewCSVWriter(cfg.CsvFilesDir)
 	gradeService := service.NewGradeService(fetcher, csvWriter)
 
-	// _, err := gradeService.ParseAndCompare()
-	// if err != nil {
-	// 	slog.Error("Initial parse and compare failed", "error", err)
-	// }
+	var wg sync.WaitGroup
+	ctx, cancel := context.WithCancel(context.Background())
 
 	bot := telegram.NewTelegramBot(cfg.TelegramConfig, gradeService)
+	wg.Go(func() {
+		bot.Run(ctx)
+	})
 	slog.Info("Bot started")
-	bot.StartMessage()
 
-	go bot.RunBackgroundSync()
-	go bot.RunHandler()
-	// go bot.Spam(10 * time.Second)
+	scheduler := scheduler.NewSyncScheduler(cfg.SyncInterval, bot.HandleSync)
+	wg.Go(func() {
+		scheduler.Run(ctx)
+	})
+	slog.Info("Background sync started", "interval", cfg.SyncInterval.String())
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	<-sigChan
-	bot.DeadMessage()
+
 	slog.Info("Received shutdown signal, exiting...")
-	time.Sleep(2 * time.Second)
+	cancel()
+	wg.Wait()
+	slog.Info("Shutdown down.")
 }
 
 func setSlog(debug bool) {

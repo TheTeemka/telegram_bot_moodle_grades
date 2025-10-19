@@ -1,6 +1,8 @@
 package config
 
 import (
+	"time"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 )
@@ -9,7 +11,8 @@ type Config struct {
 	TelegramConfig TelegramConfig `mapstructure:",squash"`
 	MoodleConfig   MoodleConfig   `mapstructure:",squash"`
 
-	CsvFilesDir string `mapstructure:"CSV_FILES_DIR" validate:"required"`
+	SyncInterval time.Duration `mapstructure:"SYNC_INTERVAL" validate:"required,min=1"`
+	CsvFilesDir  string        `mapstructure:"CSV_FILES_DIR" validate:"required"`
 }
 
 type MoodleConfig struct {
