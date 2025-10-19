@@ -2,3 +2,7 @@
 *.html
 csvs
 telegram_bot_moodle_grades*
+.idea
+
+csv_files
+.DS_Store

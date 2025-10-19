@@ -12,6 +12,7 @@ import (
 
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/config"
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/service"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/storage"
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/telegram"
 )
 
@@ -25,7 +26,9 @@ func main() {
 
 	slog.Info("Starting telegram bot")
 	fetcher := service.NewMoodleFetcher(cfg.MoodleConfig)
-	gradeService := service.NewGradeService(fetcher)
+
+	csvWriter := storage.NewCSVWriter(cfg.CsvFilesDir)
+	gradeService := service.NewGradeService(fetcher, csvWriter)
 
 	// _, err := gradeService.ParseAndCompare()
 	// if err != nil {
@@ -36,7 +39,7 @@ func main() {
 	slog.Info("Bot started")
 	bot.StartMessage()
 
-	go bot.RunBackSync()
+	go bot.RunBackgroundSync()
 	go bot.RunHandler()
 	// go bot.Spam(10 * time.Second)
 

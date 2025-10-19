@@ -8,6 +8,8 @@ import (
 type Config struct {
 	TelegramConfig TelegramConfig `mapstructure:",squash"`
 	MoodleConfig   MoodleConfig   `mapstructure:",squash"`
+
+	CsvFilesDir string `mapstructure:"CSV_FILES_DIR" validate:"required"`
 }
 
 type MoodleConfig struct {

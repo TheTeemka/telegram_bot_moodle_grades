@@ -1,7 +1,6 @@
 package service
 
 import (
-	"encoding/csv"
 	"errors"
 	"log/slog"
 	"os"
@@ -11,21 +10,26 @@ import (
 	"time"
 
 	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/model"
+	"github.com/TheTeemka/telegram_bot_moodle_grades/internal/storage"
 )
 
 var ErrInProgress = errors.New("❗️ already in progress")
 
 type GradeService struct {
-	LastTimeParsed time.Time
-	fetcher        *MoodleFetcher
 	isRunning      atomic.Bool
+	LastTimeParsed time.Time
+
+	csvWriter *storage.CSVwriter
+	fetcher   *MoodleFetcher
 }
 
-func NewGradeService(fetcher *MoodleFetcher) *GradeService {
+func NewGradeService(fetcher *MoodleFetcher, csvWriter *storage.CSVwriter) *GradeService {
 	return &GradeService{
-		fetcher: fetcher,
+		fetcher:   fetcher,
+		csvWriter: csvWriter,
 	}
 }
+
 func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 	if !p.isRunning.CompareAndSwap(false, true) {
 		slog.Debug("ParseAndCompare:already_running")
@@ -68,7 +72,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 				return
 			}
 
-			oldItems, err := readItems(courseName)
+			oldItems, err := p.readItems(courseName)
 			exists := !errors.Is(err, os.ErrNotExist)
 			if err != nil && exists {
 				slog.Error("Failed to read old items", "course", courseName, "error", err)
@@ -84,7 +88,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 				mux.Unlock()
 			}
 
-			err = writeItems(courseName, newItems)
+			err = p.writeItems(courseName, newItems)
 			if err != nil {
 				slog.Error("Failed to write new items", "course", courseName, "error", err)
 			}
@@ -122,40 +126,28 @@ func sanitizeFilename(name string) string {
 	return name
 }
 
-func writeItems(courseName string, items []*model.GradeRow) error {
+func (p *GradeService) writeItems(courseName string, items []*model.GradeRow) error {
 	slog.Debug("writeItems", "course", courseName, "items", len(items))
-	file, err := os.OpenFile(buildFilePath(courseName), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
-	if err != nil {
-		return err
+
+	record := make([][]string, 0, len(items))
+	for _, item := range items {
+		record = append(record, item.ToStringSlice())
 	}
 
-	writer := csv.NewWriter(file)
-	for _, item := range items {
-		writer.Write(item.ToStringSlice())
-	}
-	writer.Flush()
-	return file.Close()
+	return p.csvWriter.Write(courseName+".csv", record)
 }
 
-func readItems(courseName string) ([]*model.GradeRow, error) {
+func (p *GradeService) readItems(courseName string) ([]*model.GradeRow, error) {
 	slog.Debug("readItems", "course", courseName)
-	file, err := os.Open(buildFilePath(courseName))
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
 
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
+	records, err := p.csvWriter.Read(courseName + ".csv")
 	if err != nil {
 		return nil, err
 	}
 
 	var rows []*model.GradeRow
 	for _, record := range records {
-		if len(record) == 7 {
-			rows = append(rows, model.NewGradeRow(record))
-		}
+		rows = append(rows, model.NewGradeRow(record))
 	}
 
 	return rows, nil
