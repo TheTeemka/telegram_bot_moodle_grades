@@ -1,0 +1,181 @@
+go run main.go  --debug
+{"time":"2025-10-20T12:26:28.722302+05:00","level":"INFO","source":"main.go:27","msg":"Starting telegram bot","debug":true}
+{"time":"2025-10-20T12:26:29.074357+05:00","level":"INFO","source":"main.go:40","msg":"Bot started"}
+{"time":"2025-10-20T12:26:29.074404+05:00","level":"INFO","source":"main.go:46","msg":"Background sync started","interval":"3h0m0s"}
+{"time":"2025-10-20T12:26:33.038922+05:00","level":"DEBUG","source":"grade_service.go:62","msg":"Successfully extracted links","len":25}
+{"time":"2025-10-20T12:26:33.039198+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=16921&user=13029"}
+{"time":"2025-10-20T12:26:33.039272+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15205&user=13029"}
+{"time":"2025-10-20T12:26:33.039322+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=17608&user=13029"}
+{"time":"2025-10-20T12:26:33.039438+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=16479&user=13029"}
+{"time":"2025-10-20T12:26:33.039517+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=17063&user=13029"}
+{"time":"2025-10-20T12:26:33.039403+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=14289&user=13029"}
+{"time":"2025-10-20T12:26:33.039267+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=13134&user=13029"}
+{"time":"2025-10-20T12:26:33.039769+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=17701&user=13029"}
+{"time":"2025-10-20T12:26:33.039212+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15868&user=13029"}
+{"time":"2025-10-20T12:26:33.039292+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=9389&user=13029"}
+{"time":"2025-10-20T12:26:33.039441+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=17850&user=13029"}
+{"time":"2025-10-20T12:26:33.039253+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=14659&user=13029"}
+{"time":"2025-10-20T12:26:33.039239+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=16805&user=13029"}
+{"time":"2025-10-20T12:26:33.039278+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15460&user=13029"}
+{"time":"2025-10-20T12:26:33.039378+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=16558&user=13029"}
+{"time":"2025-10-20T12:26:33.039381+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15867&user=13029"}
+{"time":"2025-10-20T12:26:33.039392+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=14820&user=13029"}
+{"time":"2025-10-20T12:26:33.039397+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=17064&user=13029"}
+{"time":"2025-10-20T12:26:33.039397+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15717&user=13029"}
+{"time":"2025-10-20T12:26:33.039428+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=17152&user=13029"}
+{"time":"2025-10-20T12:26:33.039454+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15962&user=13029"}
+{"time":"2025-10-20T12:26:33.039464+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=16808&user=13029"}
+{"time":"2025-10-20T12:26:33.03948+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15203&user=13029"}
+{"time":"2025-10-20T12:26:33.039492+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=16498&user=13029"}
+{"time":"2025-10-20T12:26:33.039504+05:00","level":"DEBUG","source":"grade_service.go:69","msg":"Processing link","link":"https://moodle.nu.edu.kz/course/user.php?mode=grade&id=15896&user=13029"}
+{"time":"2025-10-20T12:26:38.33748+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Computer Systems and Organization-Lab,Section-4-Fall 2025"}
+{"time":"2025-10-20T12:26:38.337787+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Computer Systems and Organization-Lab,Section-4-Fall 2025"}
+{"time":"2025-10-20T12:26:38.33919+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Computer Systems and Organization-Lab,Section-4-Fall 2025","old":12,"new":12}
+{"time":"2025-10-20T12:26:38.339305+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Computer Systems and Organization-Lab,Section-4-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:38.339338+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Computer Systems and Organization-Lab,Section-4-Fall 2025","items":12}
+{"time":"2025-10-20T12:26:38.339362+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Computer Systems and Organization-Lab,Section-4-Fall 2025"}
+{"time":"2025-10-20T12:26:38.573269+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Linear Algebra with Applications-Lecture,Section-1-Summer 2025"}
+{"time":"2025-10-20T12:26:38.573414+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Linear Algebra with Applications-Lecture,Section-1-Summer 2025"}
+{"time":"2025-10-20T12:26:38.574572+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Linear Algebra with Applications-Lecture,Section-1-Summer 2025","old":5,"new":5}
+{"time":"2025-10-20T12:26:38.574601+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Linear Algebra with Applications-Lecture,Section-1-Summer 2025","count":0}
+{"time":"2025-10-20T12:26:38.574615+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Linear Algebra with Applications-Lecture,Section-1-Summer 2025","items":5}
+{"time":"2025-10-20T12:26:38.574632+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Linear Algebra with Applications-Lecture,Section-1-Summer 2025"}
+{"time":"2025-10-20T12:26:38.700265+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Computer Systems and Organization-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:38.700396+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Computer Systems and Organization-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:38.701591+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Computer Systems and Organization-Lecture,Section-2-Fall 2025","old":1,"new":1}
+{"time":"2025-10-20T12:26:38.701681+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Computer Systems and Organization-Lecture,Section-2-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:38.701697+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Computer Systems and Organization-Lecture,Section-2-Fall 2025","items":1}
+{"time":"2025-10-20T12:26:38.701708+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Computer Systems and Organization-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:38.8362+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Physics II for Scientists and Engineers with Laboratory-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:38.83634+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Physics II for Scientists and Engineers with Laboratory-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:38.836544+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Physics II for Scientists and Engineers with Laboratory-Lecture,Section-1-Spring 2025","old":0,"new":0}
+{"time":"2025-10-20T12:26:38.836578+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Physics II for Scientists and Engineers with Laboratory-Lecture,Section-1-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:38.836588+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Physics II for Scientists and Engineers with Laboratory-Lecture,Section-1-Spring 2025","items":0}
+{"time":"2025-10-20T12:26:38.836597+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Physics II for Scientists and Engineers with Laboratory-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:39.04228+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Academic Integrity: The Key to Your Success"}
+{"time":"2025-10-20T12:26:39.045451+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Academic Integrity_ The Key to Your Success"}
+{"time":"2025-10-20T12:26:39.046004+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Academic Integrity: The Key to Your Success","old":7,"new":7}
+{"time":"2025-10-20T12:26:39.046037+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Academic Integrity: The Key to Your Success","count":0}
+{"time":"2025-10-20T12:26:39.046051+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Academic Integrity: The Key to Your Success","items":7}
+{"time":"2025-10-20T12:26:39.046065+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Academic Integrity_ The Key to Your Success"}
+{"time":"2025-10-20T12:26:39.182146+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Workplace Instruction - SEDS / Жұмыс орнындағы нұсқама - ИСҒМ / Инструктаж на рабочем месте - ШИЦН"}
+{"time":"2025-10-20T12:26:39.182434+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Workplace Instruction - SEDS _ Жұмыс орнындағы нұсқама - ИСҒМ _ Инструктаж на рабочем месте - ШИЦН"}
+{"time":"2025-10-20T12:26:39.183978+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Workplace Instruction - SEDS / Жұмыс орнындағы нұсқама - ИСҒМ / Инструктаж на рабочем месте - ШИЦН","old":7,"new":7}
+{"time":"2025-10-20T12:26:39.18414+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Workplace Instruction - SEDS / Жұмыс орнындағы нұсқама - ИСҒМ / Инструктаж на рабочем месте - ШИЦН","count":0}
+{"time":"2025-10-20T12:26:39.184285+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Workplace Instruction - SEDS / Жұмыс орнындағы нұсқама - ИСҒМ / Инструктаж на рабочем месте - ШИЦН","items":7}
+{"time":"2025-10-20T12:26:39.184332+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Workplace Instruction - SEDS _ Жұмыс орнындағы нұсқама - ИСҒМ _ Инструктаж на рабочем месте - ШИЦН"}
+{"time":"2025-10-20T12:26:39.308199+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"University Security / Crisis Training"}
+{"time":"2025-10-20T12:26:39.308437+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"University Security _ Crisis Training"}
+{"time":"2025-10-20T12:26:39.308838+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"University Security / Crisis Training","old":0,"new":0}
+{"time":"2025-10-20T12:26:39.308934+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"University Security / Crisis Training","count":0}
+{"time":"2025-10-20T12:26:39.309+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"University Security / Crisis Training","items":0}
+{"time":"2025-10-20T12:26:39.309052+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"University Security _ Crisis Training"}
+{"time":"2025-10-20T12:26:39.504169+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Programming for Scientists and Engineers-Lecture,Section-5-Fall 2024"}
+{"time":"2025-10-20T12:26:39.504421+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming for Scientists and Engineers-Lecture,Section-5-Fall 2024"}
+{"time":"2025-10-20T12:26:39.505201+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Programming for Scientists and Engineers-Lecture,Section-5-Fall 2024","old":6,"new":6}
+{"time":"2025-10-20T12:26:39.505325+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Programming for Scientists and Engineers-Lecture,Section-5-Fall 2024","count":0}
+{"time":"2025-10-20T12:26:39.505386+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Programming for Scientists and Engineers-Lecture,Section-5-Fall 2024","items":6}
+{"time":"2025-10-20T12:26:39.505425+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming for Scientists and Engineers-Lecture,Section-5-Fall 2024"}
+{"time":"2025-10-20T12:26:39.788853+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Performance and Data Structures-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:39.789091+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Performance and Data Structures-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:39.79052+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Performance and Data Structures-Lecture,Section-1-Spring 2025","old":16,"new":16}
+{"time":"2025-10-20T12:26:39.790666+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Performance and Data Structures-Lecture,Section-1-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:39.790732+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Performance and Data Structures-Lecture,Section-1-Spring 2025","items":16}
+{"time":"2025-10-20T12:26:39.790773+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Performance and Data Structures-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:39.982804+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Programming Languages-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:39.982998+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming Languages-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:39.984115+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Programming Languages-Lecture,Section-2-Fall 2025","old":8,"new":8}
+{"time":"2025-10-20T12:26:39.98417+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Programming Languages-Lecture,Section-2-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:39.984197+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Programming Languages-Lecture,Section-2-Fall 2025","items":8}
+{"time":"2025-10-20T12:26:39.984222+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming Languages-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:40.186268+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Discrete Mathematics-Lecture,Section-4-Spring 2025"}
+{"time":"2025-10-20T12:26:40.18653+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Discrete Mathematics-Lecture,Section-4-Spring 2025"}
+{"time":"2025-10-20T12:26:40.188093+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Discrete Mathematics-Lecture,Section-4-Spring 2025","old":15,"new":15}
+{"time":"2025-10-20T12:26:40.188239+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Discrete Mathematics-Lecture,Section-4-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:40.188314+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Discrete Mathematics-Lecture,Section-4-Spring 2025","items":15}
+{"time":"2025-10-20T12:26:40.188362+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Discrete Mathematics-Lecture,Section-4-Spring 2025"}
+{"time":"2025-10-20T12:26:40.707018+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Physics II for Scientists and Engineers with Laboratory-Recitation-S-1-12-Merged"}
+{"time":"2025-10-20T12:26:40.707317+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Physics II for Scientists and Engineers with Laboratory-Recitation-S-1-12-Merged"}
+{"time":"2025-10-20T12:26:40.708883+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Physics II for Scientists and Engineers with Laboratory-Recitation-S-1-12-Merged","old":50,"new":50}
+{"time":"2025-10-20T12:26:40.709062+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Physics II for Scientists and Engineers with Laboratory-Recitation-S-1-12-Merged","count":0}
+{"time":"2025-10-20T12:26:40.709141+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Physics II for Scientists and Engineers with Laboratory-Recitation-S-1-12-Merged","items":50}
+{"time":"2025-10-20T12:26:40.709196+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Physics II for Scientists and Engineers with Laboratory-Recitation-S-1-12-Merged"}
+{"time":"2025-10-20T12:26:40.893487+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Programming for Scientists and Engineers-CompLab,Section-2-Fall 2024"}
+{"time":"2025-10-20T12:26:40.893683+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming for Scientists and Engineers-CompLab,Section-2-Fall 2024"}
+{"time":"2025-10-20T12:26:40.894985+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Programming for Scientists and Engineers-CompLab,Section-2-Fall 2024","old":14,"new":14}
+{"time":"2025-10-20T12:26:40.895089+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Programming for Scientists and Engineers-CompLab,Section-2-Fall 2024","count":0}
+{"time":"2025-10-20T12:26:40.89519+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Programming for Scientists and Engineers-CompLab,Section-2-Fall 2024","items":14}
+{"time":"2025-10-20T12:26:40.895235+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming for Scientists and Engineers-CompLab,Section-2-Fall 2024"}
+{"time":"2025-10-20T12:26:41.031732+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Programming Languages-Lab,Section-1-Fall 2025"}
+{"time":"2025-10-20T12:26:41.031898+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming Languages-Lab,Section-1-Fall 2025"}
+{"time":"2025-10-20T12:26:41.033178+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Programming Languages-Lab,Section-1-Fall 2025","old":5,"new":5}
+{"time":"2025-10-20T12:26:41.033332+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Programming Languages-Lab,Section-1-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:41.033384+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Programming Languages-Lab,Section-1-Fall 2025","items":5}
+{"time":"2025-10-20T12:26:41.033428+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Programming Languages-Lab,Section-1-Fall 2025"}
+{"time":"2025-10-20T12:26:41.221287+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Performance and Data Structures-Lab,Section-4-Spring 2025"}
+{"time":"2025-10-20T12:26:41.22156+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Performance and Data Structures-Lab,Section-4-Spring 2025"}
+{"time":"2025-10-20T12:26:41.223156+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Performance and Data Structures-Lab,Section-4-Spring 2025","old":7,"new":7}
+{"time":"2025-10-20T12:26:41.223285+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Performance and Data Structures-Lab,Section-4-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:41.223355+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Performance and Data Structures-Lab,Section-4-Spring 2025","items":7}
+{"time":"2025-10-20T12:26:41.223406+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Performance and Data Structures-Lab,Section-4-Spring 2025"}
+{"time":"2025-10-20T12:26:41.382683+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Linear Algebra with Applications-Recitation,Section-1-Summer 2025"}
+{"time":"2025-10-20T12:26:41.38295+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Linear Algebra with Applications-Recitation,Section-1-Summer 2025"}
+{"time":"2025-10-20T12:26:41.383362+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Linear Algebra with Applications-Recitation,Section-1-Summer 2025","old":0,"new":0}
+{"time":"2025-10-20T12:26:41.383456+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Linear Algebra with Applications-Recitation,Section-1-Summer 2025","count":0}
+{"time":"2025-10-20T12:26:41.383516+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Linear Algebra with Applications-Recitation,Section-1-Summer 2025","items":0}
+{"time":"2025-10-20T12:26:41.38356+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Linear Algebra with Applications-Recitation,Section-1-Summer 2025"}
+{"time":"2025-10-20T12:26:41.521477+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"History of Kazakhstan-Seminar,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:41.521795+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"History of Kazakhstan-Seminar,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:41.523083+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"History of Kazakhstan-Seminar,Section-1-Spring 2025","old":2,"new":2}
+{"time":"2025-10-20T12:26:41.523141+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"History of Kazakhstan-Seminar,Section-1-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:41.52317+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"History of Kazakhstan-Seminar,Section-1-Spring 2025","items":2}
+{"time":"2025-10-20T12:26:41.523192+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"History of Kazakhstan-Seminar,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:41.800037+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Calculus II-Lecture,Section-2-Spring 2025"}
+{"time":"2025-10-20T12:26:41.800127+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Calculus II-Lecture,Section-2-Spring 2025"}
+{"time":"2025-10-20T12:26:41.80112+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Calculus II-Lecture,Section-2-Spring 2025","old":17,"new":17}
+{"time":"2025-10-20T12:26:41.801153+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Calculus II-Lecture,Section-2-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:41.801166+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Calculus II-Lecture,Section-2-Spring 2025","items":17}
+{"time":"2025-10-20T12:26:41.801176+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Calculus II-Lecture,Section-2-Spring 2025"}
+{"time":"2025-10-20T12:26:42.182188+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"History of Kazakhstan-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:42.182299+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"History of Kazakhstan-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:42.183391+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"History of Kazakhstan-Lecture,Section-1-Spring 2025","old":35,"new":35}
+{"time":"2025-10-20T12:26:42.18344+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"History of Kazakhstan-Lecture,Section-1-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:42.183456+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"History of Kazakhstan-Lecture,Section-1-Spring 2025","items":35}
+{"time":"2025-10-20T12:26:42.183467+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"History of Kazakhstan-Lecture,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:42.362507+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Cryptography-Lecture,Section-1-Fall 2025"}
+{"time":"2025-10-20T12:26:42.362663+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Cryptography-Lecture,Section-1-Fall 2025"}
+{"time":"2025-10-20T12:26:42.363834+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Cryptography-Lecture,Section-1-Fall 2025","old":6,"new":6}
+{"time":"2025-10-20T12:26:42.363871+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Cryptography-Lecture,Section-1-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:42.363888+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Cryptography-Lecture,Section-1-Fall 2025","items":6}
+{"time":"2025-10-20T12:26:42.363902+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Cryptography-Lecture,Section-1-Fall 2025"}
+{"time":"2025-10-20T12:26:42.618518+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Academic and Professional Presentations-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:42.618792+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Academic and Professional Presentations-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:42.620326+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Academic and Professional Presentations-Lecture,Section-2-Fall 2025","old":8,"new":8}
+{"time":"2025-10-20T12:26:42.620431+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Academic and Professional Presentations-Lecture,Section-2-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:42.620479+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Academic and Professional Presentations-Lecture,Section-2-Fall 2025","items":8}
+{"time":"2025-10-20T12:26:42.620514+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Academic and Professional Presentations-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:42.799253+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Calculus II-Recitation,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:42.79933+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Calculus II-Recitation,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:42.800202+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Calculus II-Recitation,Section-1-Spring 2025","old":1,"new":1}
+{"time":"2025-10-20T12:26:42.800232+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Calculus II-Recitation,Section-1-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:42.800251+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Calculus II-Recitation,Section-1-Spring 2025","items":1}
+{"time":"2025-10-20T12:26:42.80026+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Calculus II-Recitation,Section-1-Spring 2025"}
+{"time":"2025-10-20T12:26:43.015222+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Physics II for Scientists and Engineers with Laboratory-PhysLab,Section-5-Spring 2025"}
+{"time":"2025-10-20T12:26:43.015326+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Physics II for Scientists and Engineers with Laboratory-PhysLab,Section-5-Spring 2025"}
+{"time":"2025-10-20T12:26:43.016397+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Physics II for Scientists and Engineers with Laboratory-PhysLab,Section-5-Spring 2025","old":9,"new":9}
+{"time":"2025-10-20T12:26:43.016433+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Physics II for Scientists and Engineers with Laboratory-PhysLab,Section-5-Spring 2025","count":0}
+{"time":"2025-10-20T12:26:43.016446+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Physics II for Scientists and Engineers with Laboratory-PhysLab,Section-5-Spring 2025","items":9}
+{"time":"2025-10-20T12:26:43.016458+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Physics II for Scientists and Engineers with Laboratory-PhysLab,Section-5-Spring 2025"}
+{"time":"2025-10-20T12:26:43.294418+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Sandbox course"}
+{"time":"2025-10-20T12:26:43.294552+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Sandbox course"}
+{"time":"2025-10-20T12:26:43.29468+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Sandbox course","old":0,"new":0}
+{"time":"2025-10-20T12:26:43.294693+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Sandbox course","count":0}
+{"time":"2025-10-20T12:26:43.294721+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Sandbox course","items":0}
+{"time":"2025-10-20T12:26:43.294728+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Sandbox course"}
+{"time":"2025-10-20T12:26:44.337004+05:00","level":"DEBUG","source":"grade_service.go:148","msg":"readItems","course":"Literature of Alash-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:44.337141+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Literature of Alash-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:44.338266+05:00","level":"DEBUG","source":"grade_service.go:164","msg":"Compare:start","course":"Literature of Alash-Lecture,Section-2-Fall 2025","old":11,"new":11}
+{"time":"2025-10-20T12:26:44.338298+05:00","level":"DEBUG","source":"grade_service.go:91","msg":"Course changes found","course":"Literature of Alash-Lecture,Section-2-Fall 2025","count":0}
+{"time":"2025-10-20T12:26:44.338312+05:00","level":"DEBUG","source":"grade_service.go:137","msg":"writeItems","course":"Literature of Alash-Lecture,Section-2-Fall 2025","items":11}
+{"time":"2025-10-20T12:26:44.338324+05:00","level":"DEBUG","source":"grade_service.go:132","msg":"sanitizeFilename","result":"Literature of Alash-Lecture,Section-2-Fall 2025"}
+{"time":"2025-10-20T12:26:44.33862+05:00","level":"DEBUG","source":"grade_service.go:108","msg":"ParseAndCompare:done","total_changes":0}

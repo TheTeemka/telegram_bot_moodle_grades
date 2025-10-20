@@ -113,7 +113,7 @@ func (p *GradeService) GetLastTimeParsed() time.Time {
 	return p.LastTimeParsed
 }
 func buildFilePath(courseName string) string {
-	path := "csvs/" + sanitizeFilename(courseName) + "_grades.csv"
+	path := sanitizeFilename(courseName) + "_grades.csv"
 	return path
 }
 
@@ -140,13 +140,13 @@ func (p *GradeService) writeItems(courseName string, items []*model.GradeRow) er
 		record = append(record, item.ToStringSlice())
 	}
 
-	return p.csvWriter.Write(courseName+".csv", record)
+	return p.csvWriter.Write(buildFilePath(courseName), record)
 }
 
 func (p *GradeService) readItems(courseName string) ([]*model.GradeRow, error) {
 	slog.Debug("readItems", "course", courseName)
 
-	records, err := p.csvWriter.Read(courseName + ".csv")
+	records, err := p.csvWriter.Read(buildFilePath(courseName))
 	if err != nil {
 		return nil, err
 	}
