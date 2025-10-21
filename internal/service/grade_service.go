@@ -21,12 +21,15 @@ type GradeService struct {
 
 	csvWriter *storage.CSVwriter
 	fetcher   *MoodleFetcher
+
+	badTitles []string
 }
 
-func NewGradeService(fetcher *MoodleFetcher, csvWriter *storage.CSVwriter) *GradeService {
+func NewGradeService(fetcher *MoodleFetcher, csvWriter *storage.CSVwriter, badTitles []string) *GradeService {
 	return &GradeService{
 		fetcher:   fetcher,
 		csvWriter: csvWriter,
+		badTitles: badTitles,
 	}
 }
 
@@ -55,7 +58,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 		return nil, err
 	}
 
-	links, err := extractGradesLinks(buf)
+	links, err := extractGradesLinks(buf, p.badTitles)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +122,7 @@ func buildFilePath(courseName string) string {
 
 func sanitizeFilename(name string) string {
 	// Replace common invalid filename characters with underscores
-	invalidChars := []string{":", "/", "\\", "*", "?", "\"", "<", ">", "|"}
+	invalidChars := []string{" ", ":", "/", "\\", "*", "?", "\"", "<", ">", "|"}
 	for _, char := range invalidChars {
 		name = strings.ReplaceAll(name, char, "_")
 	}

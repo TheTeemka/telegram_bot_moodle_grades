@@ -28,7 +28,11 @@ func NewCSVWriter(dir string) *CSVwriter {
 }
 
 func (w *CSVwriter) Write(filename string, records [][]string) error {
-	file, err := os.Create(filepath.Join(w.dir, filename))
+	path := filepath.Join(w.dir, filename)
+	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil && err != os.ErrExist {
+		return err
+	}
+	file, err := os.Create(path)
 	if err != nil {
 		return err
 	}

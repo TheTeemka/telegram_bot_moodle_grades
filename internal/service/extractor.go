@@ -3,6 +3,7 @@ package service
 import (
 	"bytes"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -10,7 +11,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func extractGradesLinks(htmlContent []byte) (links []string, err error) {
+func extractGradesLinks(htmlContent []byte, badTitles []string) (links []string, err error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewBuffer(htmlContent))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse HTML content: %v", err)
@@ -21,6 +22,10 @@ func extractGradesLinks(htmlContent []byte) (links []string, err error) {
 			return
 		}
 		linkSel := tr.Find("td.c0 a").First()
+
+		if slices.Contains(badTitles, linkSel.Text()) {
+			return
+		}
 
 		href, _ := linkSel.Attr("href")
 		links = append(links, href)
