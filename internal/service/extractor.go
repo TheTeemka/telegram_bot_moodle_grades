@@ -46,10 +46,10 @@ func extractItems(htmlContent []byte) (courseName string, rows []*model.GradeRow
 	}
 
 	doc.Find("table.user-grade tbody tr").Each(func(i int, tr *goquery.Selection) {
-		isAggregation := tr.Find("span[title='Aggregation']").First()
-		if isAggregation.Length() > 0 {
-			return
-		}
+		// isAggregation := tr.Find("span[title='Aggregation']").First()
+		// if isAggregation.Length() > 0 {
+		// 	return
+		// }
 
 		var row []string
 		thName := tr.Find("th").First().Find("div.rowtitle").Children().First().Text()

@@ -42,6 +42,7 @@ func (b *TelegramBot) SetCommands() error {
 		{Command: "start", Description: "Start the bot"},
 		{Command: "sync", Description: "Trigger a manual sync"},
 		{Command: "status", Description: "Get the last sync time"},
+		{Command: "list", Description: "List available courses"},
 	}...)
 
 	_, err := b.bot.Request(commandsConfig)
@@ -84,7 +85,11 @@ func (b *TelegramBot) runHandlerWorker(ctx context.Context, updates <-chan tapi.
 			if !b.IsFromMe(update) {
 				continue
 			}
-			b.HandleUpdate(update)
+			if update.CallbackQuery != nil {
+				b.HandleCallbacks(*update.CallbackQuery)
+			} else if update.Message.Command() != "" {
+				b.HandleCommands(update)
+			}
 		}
 	}
 }

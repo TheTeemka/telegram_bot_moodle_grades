@@ -162,6 +162,21 @@ func (p *GradeService) readItems(courseName string) ([]*model.GradeRow, error) {
 	return rows, nil
 }
 
+func (p *GradeService) GetCourseNamesList() ([]string, error) {
+	files, err := p.csvWriter.ListFiles()
+	if err != nil {
+		return nil, err
+	}
+	slog.Debug("GetCourseNamesList", "files", len(files))
+
+	return files, nil
+}
+
+func (p *GradeService) GetCourseGrades(courseName string) ([]*model.GradeRow, error) {
+	slog.Debug("GetCourseGrades", "course", courseName)
+	return p.readItems(courseName)
+}
+
 func Compare(courseName string, old, new []*model.GradeRow) []model.Change {
 	slog.Debug("Compare:start", "course", courseName, "old", len(old), "new", len(new))
 	mp := map[string]*model.GradeRow{}

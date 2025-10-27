@@ -7,7 +7,7 @@ import (
 	tapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-func (b *TelegramBot) HandleUpdate(update tapi.Update) {
+func (b *TelegramBot) HandleCommands(update tapi.Update) {
 	if update.Message != nil {
 		switch update.Message.Command() {
 		case "start":
@@ -16,6 +16,8 @@ func (b *TelegramBot) HandleUpdate(update tapi.Update) {
 			b.HandleManualSync()
 		case "status":
 			b.HandlerStatus()
+		case "list":
+			b.HandleList()
 		}
 	}
 }
@@ -70,5 +72,28 @@ func (b *TelegramBot) HandlerStatus() {
 	err := b.SendToTarget(msg)
 	if err != nil {
 		slog.Error("Failed to send status", "error", err)
+	}
+}
+
+func (b *TelegramBot) HandleList() {
+	courseNames, err := b.gradeService.GetCourseNamesList()
+	if err != nil {
+		slog.Error("Failed to get course names", "error", err)
+		b.SendError("Failed to get course names")
+		return
+	}
+
+	slog.Debug("Sending course list", "courses", courseNames)
+	var keyboard [][]tapi.InlineKeyboardButton
+	for _, courseName := range courseNames {
+		keyboard = append(keyboard, []tapi.InlineKeyboardButton{
+			tapi.NewInlineKeyboardButtonData(courseName, courseName),
+		})
+	}
+
+	err = b.SendToTargetWithKeyboard("Available courses:", keyboard)
+	if err != nil {
+		slog.Error("Failed to send course list", "error", err)
+		b.SendError("Failed to send course list")
 	}
 }

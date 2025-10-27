@@ -67,3 +67,26 @@ func (w *CSVwriter) Read(filename string) ([][]string, error) {
 
 	return records, nil
 }
+
+func (w *CSVwriter) ListFiles() ([]string, error) {
+	var files []string
+	err := filepath.Walk(w.dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			relPath, err := filepath.Rel(w.dir, path)
+			if err != nil {
+				return err
+			}
+
+			files = append(files, relPath)
+		}
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return files, nil
+}
