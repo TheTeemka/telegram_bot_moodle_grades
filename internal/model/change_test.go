@@ -30,7 +30,7 @@ func TestChange_ToHTMLString(t *testing.T) {
 				New:        NewGradeRow([]string{"common_arg_1", "new_arg_2", "new_arg_3", "new_arg_4-new_arg_4", "new_arg_5 %"}),
 			},
 			excepted: "course_name\n❇️ <b>Changes</b> in common_arg_1\n" +
-				"Old: old_arg_5% (old_arg_3/old_arg_4-old_arg_4)\n" +
+				"Old: <s>old_arg_5% (old_arg_3/old_arg_4-old_arg_4)</s>\n" +
 				"New: new_arg_5% (new_arg_3/new_arg_4-new_arg_4)",
 		},
 	}

@@ -24,7 +24,7 @@ func (ch Change) ToHTMLString() string {
 		return fmt.Sprintf("%s\n🔆 <b>New:</b> %s",
 			ch.CourseName, ch.New.StringWithName())
 	case Changed:
-		return fmt.Sprintf("%s\n❇️ <b>Changes</b> in %s\nOld: %s\nNew: %s",
+		return fmt.Sprintf("%s\n❇️ <b>Changes</b> in %s\nOld: <s>%s</s>\nNew: %s",
 			ch.CourseName, ch.Old.AssName,
 			ch.Old.StringWithoutName(), ch.New.StringWithoutName())
 	default:
