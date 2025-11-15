@@ -19,15 +19,22 @@ type Change struct {
 }
 
 func (ch Change) ToHTMLString() string {
+	var s string
 	switch ch.TP {
 	case NewElement:
-		return fmt.Sprintf("%s\n🔆 <b>New:</b> %s",
+		s = fmt.Sprintf("%s\n🔆 <i>New:</i> %s",
 			ch.CourseName, ch.New.StringWithName())
 	case Changed:
-		return fmt.Sprintf("%s\n❇️ <b>Changes</b> in %s\nOld: <s>%s</s>\nNew: %s",
+		s = fmt.Sprintf("%s\n❇️ <i>Changes</i> in %s\nOld: <s>%s</s>\nNew: %s",
 			ch.CourseName, ch.Old.AssName,
 			ch.Old.StringWithoutName(), ch.New.StringWithoutName())
 	default:
-		return "Unknown change type"
+		panic("unknown change type")
 	}
+
+	if ch.New.Feedback != "" {
+		s += fmt.Sprintf("\n<i>Feedback:</i> %s", ch.New.Feedback)
+	}
+
+	return s
 }

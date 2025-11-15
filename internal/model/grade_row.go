@@ -10,6 +10,7 @@ type GradeRow struct {
 	Percentage string
 	Score      string
 	Rang       string
+	Feedback   string
 	Raw        []string
 }
 
@@ -22,6 +23,7 @@ func NewGradeRow(raw []string) *GradeRow {
 		Percentage: raw[4],
 		Score:      raw[2],
 		Rang:       raw[3],
+		Feedback:   raw[5],
 		Raw:        raw,
 	}
 }
