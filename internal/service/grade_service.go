@@ -81,7 +81,7 @@ func (p *GradeService) ParseAndCompare() ([]model.Change, error) {
 				return
 			}
 
-			oldItems, err := p.readItems(courseName)
+			oldItems, err := p.readItemsCourse(courseName)
 			exists := !errors.Is(err, os.ErrNotExist)
 			if err != nil && exists {
 				slog.Error("Failed to read old items", "course", courseName, "error", err)
@@ -146,10 +146,16 @@ func (p *GradeService) writeItems(courseName string, items []*model.GradeRow) er
 	return p.csvWriter.Write(buildFilePath(courseName), record)
 }
 
-func (p *GradeService) readItems(courseName string) ([]*model.GradeRow, error) {
-	slog.Debug("readItems", "course", courseName)
+func (p *GradeService) readItemsCourse(courseName string) ([]*model.GradeRow, error) {
+	slog.Debug("readItemsCourse", "course", courseName)
 
-	records, err := p.csvWriter.Read(buildFilePath(courseName))
+	return p.readItemsFile(buildFilePath(courseName))
+}
+
+func (p *GradeService) readItemsFile(courseFilePath string) ([]*model.GradeRow, error) {
+	slog.Debug("readItems", "course", courseFilePath)
+
+	records, err := p.csvWriter.Read(courseFilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +180,12 @@ func (p *GradeService) GetCourseNamesList() ([]string, error) {
 
 func (p *GradeService) GetCourseGrades(courseName string) ([]*model.GradeRow, error) {
 	slog.Debug("GetCourseGrades", "course", courseName)
-	return p.readItems(courseName)
+	return p.readItemsCourse(courseName)
+}
+
+func (p *GradeService) GetCourseFile(coursefile string) ([]*model.GradeRow, error) {
+	slog.Debug("GetCourseFile", "course", coursefile)
+	return p.readItemsFile(coursefile)
 }
 
 func Compare(courseName string, old, new []*model.GradeRow) []model.Change {

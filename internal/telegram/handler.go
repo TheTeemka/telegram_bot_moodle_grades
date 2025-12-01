@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/TheTeemka/telegram_bot_moodle_grades/pkg/utils"
 	tapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -87,7 +88,7 @@ func (b *TelegramBot) HandleList() {
 	var keyboard [][]tapi.InlineKeyboardButton
 	for _, courseName := range courseNames {
 		keyboard = append(keyboard, []tapi.InlineKeyboardButton{
-			tapi.NewInlineKeyboardButtonData(courseName, courseName),
+			tapi.NewInlineKeyboardButtonData(courseName, "crs:"+utils.Compress(courseName)),
 		})
 	}
 
